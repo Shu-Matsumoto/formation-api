@@ -9,6 +9,21 @@ class student extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'lecture_id',
+        'position',
+        'status',
+        'pay_amount',
+        'goal',
+        'requirement',
+        'dev_env',
+    ];
+
+    protected $guarded = [
+        'id'
+    ];
+
     public function lecture()
     {
         return $this->hasOne(\App\Models\lecture::class, 'id', 'lecture_id');

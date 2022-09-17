@@ -62,6 +62,7 @@ class UserController extends Controller
     {
         $user = \App\Models\User::find($id);
         $user->update($request->all());
+        $user->password = bcrypt($request->input('password'));
         $user->save();
         return response()->json([
             'message' => 'success',

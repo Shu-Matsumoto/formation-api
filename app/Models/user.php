@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class user extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'login_id',
         'password',
         'user_name',
         'email',
-        'image_path'
+        'image_path',
         'self_introduction',
         'credit_card_number',
         'financial_institution_id',
@@ -22,11 +22,11 @@ class user extends Model
     ];
 
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token',
     ];
 
-    protected $guarded =[
+    protected $guarded = [
         'id'
     ];
 }

@@ -34,23 +34,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// 受講申請関連
-Route::resource('/application_of_lectures', ApplicationOfLectureController::class)->except(['create', 'edit']);
-Route::get('/me/application_of_lectures', [ApplicationOfLectureController::class, 'list']);
-Route::get('/me/applybox', [ApplyboxController::class, 'list']);
-
 // ログイン関連
 Route::post('/signup', [SignupController::class, 'signup']); //->name('api.signup.post');
 
 // ユーザー関連
 Route::resource('/users', UserController::class)->except(['create', 'edit']);
-Route::get('/me/profile', [ProfileController::class, 'show']);
-Route::put('/me/profile', [ProfileController::class, 'update']);
-Route::get('/me/payment', [PaymentController::class, 'show']);
-Route::put('/me/payment', [PaymentController::class, 'update']);
+Route::get('/{userId}/profile', [ProfileController::class, 'show']);
+Route::put('/{userId}/profile', [ProfileController::class, 'update']);
+Route::get('/{userId}/payment', [PaymentController::class, 'show']);
+Route::put('/{userId}/payment', [PaymentController::class, 'update']);
 Route::resource('/skills', SkillController::class)->except(['create', 'edit']);
-Route::get('/me/skills', [SkillController::class, 'list']);
-Route::put('/me/image', [ImageController::class, 'store']);
+Route::get('/{userId}/skills', [SkillController::class, 'list']);
+Route::put('/{userId}/image', [ImageController::class, 'store']);
 
 // 講義関連
 Route::resource('/lectures', LectureController::class)->except(['create', 'edit']);
@@ -67,3 +62,8 @@ Route::resource('/team_chats', TeamChatController::class)->except(['create', 'ed
 Route::get('/{lectureId}/team_chats', [TeamChatController::class, 'list']);
 Route::get('/{userId}/studies', [StudyController::class, 'list']);
 Route::get('/{lectureId}/studies', [VideolinkController::class, 'list']);
+
+// 受講申請関連
+Route::resource('/application_of_lectures', ApplicationOfLectureController::class)->except(['create', 'edit']);
+Route::get('/{userId}/application_of_lectures', [ApplicationOfLectureController::class, 'list']);
+Route::get('/{userId}/applybox', [ApplyboxController::class, 'list']);

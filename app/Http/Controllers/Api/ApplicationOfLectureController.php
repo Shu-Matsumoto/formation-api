@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class ApplicationOfLectureController extends Controller
@@ -58,7 +59,7 @@ class ApplicationOfLectureController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    { 
+    {
         $application = \App\Models\application_of_lecture::find($id);
         $application->update($request->all());
         $application->save();
