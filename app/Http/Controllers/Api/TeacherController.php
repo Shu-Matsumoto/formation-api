@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -13,17 +14,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $teachers = \App\Models\teacher::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $teachers,
+        ], 200);
     }
 
     /**
@@ -34,7 +29,11 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $teacher = \App\Models\teacher::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $teacher,
+        ], 200);
     }
 
     /**
@@ -45,18 +44,11 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $teacher = \App\Models\teacher::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $teacher,
+        ], 200);
     }
 
     /**
@@ -67,8 +59,14 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    { 
+        $teacher = \App\Models\teacher::find($id);
+        $teacher->update($request->all());
+        $teacher->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $teacher,
+        ], 200);
     }
 
     /**
@@ -79,6 +77,20 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $teacher = \App\Models\teacher::find($id);
+        $teacher->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request, int $userId)
+    {
+        $teachers = \App\Models\teacher::where('user_id', $userId)->get();
+        return response()->json($teachers);
     }
 }

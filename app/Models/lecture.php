@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class lecture extends Model
 {
     use HasFactory;
+
+    protected $table = 'lectures';
+
+    protected $fillable = [
+        'user_id',
+        'title',
+        'explanation',
+    ];
+
+    protected $guarded =[
+        'id'
+    ];
 }

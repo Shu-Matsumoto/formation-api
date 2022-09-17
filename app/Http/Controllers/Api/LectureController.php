@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class LectureController extends Controller
@@ -13,17 +14,11 @@ class LectureController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $lectrues = \App\Models\lecture::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectrues,
+        ], 200);
     }
 
     /**
@@ -34,7 +29,11 @@ class LectureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lectrue = \App\Models\lecture::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectrue,
+        ], 200);
     }
 
     /**
@@ -45,18 +44,11 @@ class LectureController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $lecture = \App\Models\lecture::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $lecture,
+        ], 200);
     }
 
     /**
@@ -68,7 +60,13 @@ class LectureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $lecture = \App\Models\lecture::find($id);
+        $lecture->update($request->all());
+        $lecture->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $lecture,
+        ], 200);
     }
 
     /**
@@ -79,6 +77,20 @@ class LectureController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lecture = \App\Models\lecture::find($id);
+        $lecture->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request, int $userId)
+    {
+        $lectures = \App\Models\lecture::where('user_id', $userId)->get();
+        return response()->json($lectures);
     }
 }

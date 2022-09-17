@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-class ApplicationOfLecturelController extends Controller
+class ApplicationOfLectureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,17 +13,11 @@ class ApplicationOfLecturelController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $applications = \App\Models\application_of_lecture::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $applications,
+        ], 200);
     }
 
     /**
@@ -34,7 +28,11 @@ class ApplicationOfLecturelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $application = \App\Models\application_of_lecture::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $application,
+        ], 200);
     }
 
     /**
@@ -45,18 +43,11 @@ class ApplicationOfLecturelController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $application = \App\Models\application_of_lecture::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $application,
+        ], 200);
     }
 
     /**
@@ -67,8 +58,14 @@ class ApplicationOfLecturelController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    { 
+        $application = \App\Models\application_of_lecture::find($id);
+        $application->update($request->all());
+        $application->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $application,
+        ], 200);
     }
 
     /**
@@ -79,6 +76,20 @@ class ApplicationOfLecturelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $application = \App\Models\application_of_lecture::find($id);
+        $application->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request, int $userId)
+    {
+        $applications = \App\Models\application_of_lecture::where('user_id', $userId)->get();
+        return response()->json($applications);
     }
 }

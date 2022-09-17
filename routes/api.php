@@ -11,6 +11,13 @@ use App\Http\Controllers\Api\LectureScheduleController;
 use App\Http\Controllers\Api\TeachingMaterialController;
 use App\Http\Controllers\Api\ApplicationOfLectureController;
 use App\Http\Controllers\Api\TeamChatController;
+use App\Http\Controllers\Api\SignupController;
+use App\Http\Controllers\Api\ApplyboxController;
+use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\StudyController;
+use App\Http\Controllers\Api\VideolinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,15 +34,36 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// DBテーブル各々に対応したルーティング
-// Route::resource([
-//     'users' => UserController::class,
-//     'skills' => SkillController::class,
-//     'lectures' => LectureController::class,
-//     'students' => StudentController::class,
-//     'teachers' => TeacherController::class,
-//     'lecture_schedules' => LectureScheduleController::class,
-//     'teaching_materials' => TeachingMaterialController::class,
-//     'application_of_lectures' => ApplicationOfLectureController::class,
-//     'team_chats' => TeamChatController::class,
-// ]);
+// 受講申請関連
+Route::resource('/application_of_lectures', ApplicationOfLectureController::class)->except(['create', 'edit']);
+Route::get('/me/application_of_lectures', [ApplicationOfLectureController::class, 'list']);
+Route::get('/me/applybox', [ApplyboxController::class, 'list']);
+
+// ログイン関連
+Route::post('/signup', [SignupController::class, 'signup']); //->name('api.signup.post');
+
+// ユーザー関連
+Route::resource('/users', UserController::class)->except(['create', 'edit']);
+Route::get('/me/profile', [ProfileController::class, 'show']);
+Route::put('/me/profile', [ProfileController::class, 'update']);
+Route::get('/me/payment', [PaymentController::class, 'show']);
+Route::put('/me/payment', [PaymentController::class, 'update']);
+Route::resource('/skills', SkillController::class)->except(['create', 'edit']);
+Route::get('/me/skills', [SkillController::class, 'list']);
+Route::put('/me/image', [ImageController::class, 'store']);
+
+// 講義関連
+Route::resource('/lectures', LectureController::class)->except(['create', 'edit']);
+Route::get('/{userId}/lectures', [LectureController::class, 'list']);
+Route::resource('/students', StudentController::class)->except(['create', 'edit']);
+Route::get('/{userId}/students', [StudentController::class, 'list']);
+Route::resource('/teachers', TeacherController::class)->except(['create', 'edit']);
+Route::get('/{userId}/teachers', [TeacherController::class, 'list']);
+Route::resource('/lecture_schedules', LectureScheduleController::class)->except(['create', 'edit']);
+Route::get('/{lectureId}/lecture_schedules', [LectureScheduleController::class, 'list']);
+Route::resource('/teaching_materials', TeachingMaterialController::class)->except(['create', 'edit']);
+Route::get('/{lectureId}/teaching_materials', [TeachingMaterialController::class, 'list']);
+Route::resource('/team_chats', TeamChatController::class)->except(['create', 'edit']);
+Route::get('/{lectureId}/team_chats', [TeamChatController::class, 'list']);
+Route::get('/{userId}/studies', [StudyController::class, 'list']);
+Route::get('/{lectureId}/studies', [VideolinkController::class, 'list']);

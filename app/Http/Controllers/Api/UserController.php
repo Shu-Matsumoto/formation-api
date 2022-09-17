@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,17 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $users = \App\Models\User::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $users,
+        ], 200);
     }
 
     /**
@@ -34,7 +29,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = \App\Models\User::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $user,
+        ], 200);
     }
 
     /**
@@ -45,18 +44,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $user = \App\Models\User::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $user,
+        ], 200);
     }
 
     /**
@@ -68,7 +60,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = \App\Models\User::find($id);
+        $user->update($request->all());
+        $user->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $user,
+        ], 200);
     }
 
     /**
@@ -79,6 +77,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = \App\Models\User::find($id);
+        $user->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
     }
 }

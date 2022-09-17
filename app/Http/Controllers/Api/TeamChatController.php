@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class TeamChatController extends Controller
@@ -13,17 +14,11 @@ class TeamChatController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $chats = \App\Models\team_chat::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $chats,
+        ], 200);
     }
 
     /**
@@ -34,7 +29,11 @@ class TeamChatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $chat = \App\Models\team_chat::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $chat,
+        ], 200);
     }
 
     /**
@@ -45,18 +44,11 @@ class TeamChatController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $chat = \App\Models\team_chat::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $chat,
+        ], 200);
     }
 
     /**
@@ -67,8 +59,14 @@ class TeamChatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    { 
+        $chat = \App\Models\team_chat::find($id);
+        $chat->update($request->all());
+        $chat->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $chat,
+        ], 200);
     }
 
     /**
@@ -79,6 +77,20 @@ class TeamChatController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $chat = \App\Models\team_chat::find($id);
+        $chat->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request, int $userId)
+    {
+        $chats = \App\Models\team_chat::where('user_id', $userId)->get();
+        return response()->json($chats);
     }
 }

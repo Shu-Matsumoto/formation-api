@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -13,17 +14,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $students = \App\Models\student::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $students,
+        ], 200);
     }
 
     /**
@@ -34,7 +29,11 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $student = \App\Models\student::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $student,
+        ], 200);
     }
 
     /**
@@ -45,18 +44,11 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $student = \App\Models\student::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $student,
+        ], 200);
     }
 
     /**
@@ -67,8 +59,14 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    { 
+        $student = \App\Models\student::find($id);
+        $student->update($request->all());
+        $student->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $student,
+        ], 200);
     }
 
     /**
@@ -79,6 +77,20 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = \App\Models\student::find($id);
+        $student->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request, int $userId)
+    {
+        $students = \App\Models\student::where('user_id', $userId)->get();
+        return response()->json($students);
     }
 }

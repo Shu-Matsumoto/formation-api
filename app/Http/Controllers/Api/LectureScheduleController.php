@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class LectureScheduleController extends Controller
@@ -13,17 +14,11 @@ class LectureScheduleController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $lectrues = \App\Models\lecture_schedule::all();
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectrues,
+        ], 200);
     }
 
     /**
@@ -34,7 +29,11 @@ class LectureScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lectrueSchedules = \App\Models\lecture_schedule::create($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectrueSchedules,
+        ], 200);
     }
 
     /**
@@ -45,18 +44,11 @@ class LectureScheduleController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $lectrueSchedule = \App\Models\lecture_schedule::find($id);
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectrueSchedule,
+        ], 200);
     }
 
     /**
@@ -67,8 +59,14 @@ class LectureScheduleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    { 
+        $lectrueSchedule = \App\Models\lecture_schedule::find($id);
+        $lectrueSchedule->update($request->all());
+        $lectrueSchedule->save();
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectrueSchedule,
+        ], 200);
     }
 
     /**
@@ -79,6 +77,20 @@ class LectureScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lectrueSchedule = \App\Models\lecture_schedule::find($id);
+        $lectrueSchedule->delete();
+        return response()->json([
+            'message' => 'success',
+        ], 200);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request, int $userId)
+    {
+        $lectrueSchedules = \App\Models\lecture_schedule::where('user_id', $userId)->get();
+        return response()->json($lectrueSchedules);
     }
 }
