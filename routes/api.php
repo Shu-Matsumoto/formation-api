@@ -50,6 +50,7 @@ Route::put('/{userId}/image', [ImageController::class, 'store']);
 // 講義関連
 Route::resource('/lectures', LectureController::class)->except(['create', 'edit']);
 Route::get('/{userId}/lectures', [LectureController::class, 'list']);
+Route::get('/lectures/{lectureId}/detail', [LectureController::class, 'showdetail']);
 Route::resource('/students', StudentController::class)->except(['create', 'edit']);
 Route::get('/{userId}/students', [StudentController::class, 'list']);
 Route::resource('/teachers', TeacherController::class)->except(['create', 'edit']);

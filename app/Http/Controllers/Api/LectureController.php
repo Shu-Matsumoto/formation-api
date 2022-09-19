@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LectureController extends Controller
 {
@@ -91,6 +92,34 @@ class LectureController extends Controller
     public function list(Request $request, int $userId)
     {
         $lectures = \App\Models\lecture::where('user_id', $userId)->get();
-        return response()->json($lectures);
+        return response()->json([
+            'message' => 'success',
+            'data' => $lectures,
+        ], 200);
+    }
+
+    public static function console_log($var)
+    {
+        echo '<script>console.log(', json_encode($var, JSON_UNESCAPED_UNICODE), ');</script>';
+    }
+
+    /**
+     * Display the specified resource.(detail ver.)
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showdetail($id)
+    {
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'lecture' => \App\Models\lecture::find($id),
+                'students' => \App\Models\lecture::find($id)->students,
+                'teachers' => \App\Models\lecture::find($id)->teachers,
+                'schedules' => \App\Models\lecture::find($id)->lecture_schedules,
+                'materials' => \App\Models\lecture::find($id)->teaching_materials
+            ]
+        ], 200);
     }
 }
