@@ -68,3 +68,5 @@ Route::get('/{lectureId}/studies', [VideolinkController::class, 'list']);
 Route::resource('/application_of_lectures', ApplicationOfLectureController::class)->except(['create', 'edit']);
 Route::get('/{userId}/application_of_lectures', [ApplicationOfLectureController::class, 'list']);
 Route::get('/{userId}/applybox', [ApplyboxController::class, 'list']);
+
+
