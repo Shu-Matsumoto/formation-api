@@ -19,4 +19,16 @@ class teacher extends Model
     protected $guarded = [
         'id'
     ];
+
+    // 講義テーブルの関連付け
+    public function lecture()
+    {
+        return $this->hasOne(\App\Models\lecture::class, 'id', 'lecture_id');
+    }
+
+    // 生徒テーブルの関連付け
+    public function students()
+    {
+        return $this->hasMany(\App\Models\application_of_lecture::class, 'student_id', 'id');
+    }
 }

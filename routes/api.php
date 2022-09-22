@@ -30,14 +30,15 @@ use App\Http\Controllers\Api\VideolinkController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // ログイン関連
 Route::post('/signup', [SignupController::class, 'signup']); //->name('api.signup.post');
+Route::post('/signin', [SignupController::class, 'signin']); //->name('api.signup.post');
 
-// ユーザー関連
+// ユーザ関連
 Route::resource('/users', UserController::class)->except(['create', 'edit']);
 Route::get('/{userId}/profile', [ProfileController::class, 'show']);
 Route::put('/{userId}/profile', [ProfileController::class, 'update']);
@@ -67,6 +68,4 @@ Route::get('/{lectureId}/studies', [VideolinkController::class, 'list']);
 // 受講申請関連
 Route::resource('/application_of_lectures', ApplicationOfLectureController::class)->except(['create', 'edit']);
 Route::get('/{userId}/application_of_lectures', [ApplicationOfLectureController::class, 'list']);
-Route::get('/{userId}/applybox', [ApplyboxController::class, 'list']);
-
-
+Route::post('/{userId}/applybox', [ApplyboxController::class, 'list']);

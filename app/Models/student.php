@@ -24,12 +24,14 @@ class student extends Model
         'id'
     ];
 
+    // 講義テーブルの関連付け
     public function lecture()
     {
         return $this->hasOne(\App\Models\lecture::class, 'id', 'lecture_id');
     }
 
-    public function application_of_lecture()
+    // 受講申請テーブルの関連付け
+    public function application_of_lectures()
     {
         return $this->hasMany(\App\Models\application_of_lecture::class, 'student_id', 'id');
     }
