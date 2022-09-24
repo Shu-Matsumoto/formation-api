@@ -45,6 +45,9 @@ class ApplicationOfLectureController extends Controller
     public function show($id)
     {
         $application = \App\Models\application_of_lecture::find($id);
+        $application->user;
+        $application->lecture;
+
         return response()->json([
             'message' => 'success',
             'data' => $application,

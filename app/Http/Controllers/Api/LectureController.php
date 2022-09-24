@@ -16,9 +16,19 @@ class LectureController extends Controller
     public function index()
     {
         $lectrues = \App\Models\lecture::all();
+        // ユーザー情報の付加
+        $lectruewithusers = [];
+        foreach ($lectrues as $lecture) {
+            $obj = [
+                'lecture' => \App\Models\lecture::find($lecture->id),
+                'user' => $lecture->user
+            ];
+            array_push($lectruewithusers, $obj);
+        }
+
         return response()->json([
             'message' => 'success',
-            'data' => $lectrues,
+            'data' => collect($lectruewithusers),
         ], 200);
     }
 
@@ -48,7 +58,7 @@ class LectureController extends Controller
         $lecture = \App\Models\lecture::find($id);
         return response()->json([
             'message' => 'success',
-            'data' => $lecture,
+            'data' => $lecture
         ], 200);
     }
 
@@ -91,10 +101,20 @@ class LectureController extends Controller
      */
     public function list(Request $request, int $userId)
     {
+        // 講義情報にユーザー情報の付加
+        $lecturewithusers = [];
         $lectures = \App\Models\lecture::where('user_id', $userId)->get();
+        foreach ($lectures as $lecture) {
+            $obj = [
+                'lecture' => \App\Models\lecture::find($lecture->id),
+                'user' => $lecture->user
+            ];
+            array_push($lecturewithusers, $obj);
+        }
+
         return response()->json([
             'message' => 'success',
-            'data' => $lectures,
+            'data' => $lecturewithusers
         ], 200);
     }
 
@@ -111,12 +131,33 @@ class LectureController extends Controller
      */
     public function showdetail($id)
     {
+        // 講師情報にユーザー情報の付加
+        $teacherwithusers = [];
+        $teachers = \App\Models\lecture::find($id)->teachers;
+        foreach ($teachers as $teacher) {
+            $obj = [
+                'teacher' => \App\Models\teacher::find($teacher->id),
+                'user' => $teacher->user
+            ];
+            array_push($teacherwithusers, $obj);
+        }
+        // 生徒情報にユーザー情報の付加
+        $studentwithusers = [];
+        $students = \App\Models\lecture::find($id)->students;
+        foreach ($students as $student) {
+            $obj = [
+                'student' => \App\Models\student::find($student->id),
+                'user' => $student->user
+            ];
+            array_push($studentwithusers, $obj);
+        }
+
         return response()->json([
             'message' => 'success',
             'data' => [
                 'lecture' => \App\Models\lecture::find($id),
-                'students' => \App\Models\lecture::find($id)->students,
-                'teachers' => \App\Models\lecture::find($id)->teachers,
+                'students' => $studentwithusers,
+                'teachers' => $teacherwithusers,
                 'schedules' => \App\Models\lecture::find($id)->lecture_schedules,
                 'materials' => \App\Models\lecture::find($id)->teaching_materials
             ]

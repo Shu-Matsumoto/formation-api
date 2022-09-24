@@ -23,7 +23,11 @@ class student extends Model
     protected $guarded = [
         'id'
     ];
-
+    // 生徒に紐づくユーザー情報取得
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
     // 講義テーブルの関連付け
     public function lecture()
     {

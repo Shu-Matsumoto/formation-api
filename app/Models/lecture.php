@@ -20,6 +20,11 @@ class lecture extends Model
     protected $guarded = [
         'id'
     ];
+    // 講義に紐づくユーザー情報取得
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
     // 講義に紐づく生徒一覧取得
     public function students()
     {

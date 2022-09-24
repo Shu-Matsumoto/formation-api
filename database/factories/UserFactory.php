@@ -18,11 +18,11 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'login_id' => \Str::random(10),
+            'login_id' => Str::random(10),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'user_name' => "佐藤二郎",
+            'user_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'remember_token' => \Str::random(10),
+            'remember_token' => Str::random(10),
         ];
     }
 
