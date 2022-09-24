@@ -59,10 +59,20 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    { 
+    {
+        \App\Models\student::where('id', $id)
+            ->update(
+                [
+                    'user_id' => $request->input('user_id'),
+                    'position' => $request->input('position'),
+                    'status' => $request->input('status'),
+                    'pay_amount' => $request->input('pay_amount'),
+                    'goal' => $request->input('goal'),
+                    'requirement' => $request->input('requirement'),
+                    'dev_env' => $request->input('dev_env')
+                ]
+            );
         $student = \App\Models\student::find($id);
-        $student->update($request->all());
-        $student->save();
         return response()->json([
             'message' => 'success',
             'data' => $student,

@@ -297,6 +297,26 @@ class LocalDevelopSeeder extends Seeder
             ]);
         });
 
-        //User::factory()->count(10)->create();
+        User::all()
+            ->each(function (User $user) {
+                \App\Models\user_notice::factory()->count(1)->create([
+                    'user_id' => $user->id,
+                    'type' => 2,
+                    'title' => "初回ログインのお礼",
+                    'sub_title' => "初めてログインしていただきありがとうございます。",
+                ]);
+                \App\Models\user_notice::factory()->count(1)->create([
+                    'user_id' => $user->id,
+                    'type' => 1,
+                    'title' => "プロフィール入力をしましょう",
+                    'sub_title' => "プロフィールを入力すると他ユーザーとのコミュニケーションを助けます。まず始めにプロフィール入力するのをオススメします。",
+                ]);
+                \App\Models\user_notice::factory()->count(1)->create([
+                    'user_id' => $user->id,
+                    'type' => 2,
+                    'title' => "使い方で何かわからないことがありますか？",
+                    'sub_title' => "使い方についてまとめた資料があります。ぜひご活用ください。",
+                ]);
+            });
     }
 }

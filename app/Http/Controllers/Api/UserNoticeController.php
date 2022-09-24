@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class ApplicationOfLectureController extends Controller
+class UserNoticeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,10 @@ class ApplicationOfLectureController extends Controller
      */
     public function index()
     {
-        $applications = \App\Models\application_of_lecture::all();
+        $notices = \App\Models\user_notice::all();
         return response()->json([
             'message' => 'success',
-            'data' => $applications,
+            'data' => $notices,
         ], 200);
     }
 
@@ -30,10 +29,10 @@ class ApplicationOfLectureController extends Controller
      */
     public function store(Request $request)
     {
-        $application = \App\Models\application_of_lecture::create($request->all());
+        $notice = \App\Models\user_notice::create($request->all());
         return response()->json([
             'message' => 'success',
-            'data' => $application,
+            'data' => $notice,
         ], 200);
     }
 
@@ -45,13 +44,10 @@ class ApplicationOfLectureController extends Controller
      */
     public function show($id)
     {
-        $application = \App\Models\application_of_lecture::find($id);
-        $application->user;
-        $application->lecture;
-
+        $notice = \App\Models\user_notice::find($id);
         return response()->json([
             'message' => 'success',
-            'data' => $application,
+            'data' => $notice,
         ], 200);
     }
 
@@ -64,18 +60,16 @@ class ApplicationOfLectureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 更新はstatusとfb_commentに限定する(利用用途拡張時に開放する)
-        \App\Models\application_of_lecture::where('id', $id)
+        \App\Models\user_notice::where('id', $id)
             ->update(
                 [
-                    'status' => $request->input('status'),
-                    'fb_comment' => $request->input('fb_comment')
+                    'already_read' => $request->input('already_read'),
                 ]
             );
-        $application = \App\Models\application_of_lecture::find($id);
+        $notice = \App\Models\user_notice::find($id);
         return response()->json([
             'message' => 'success',
-            'data' => $application,
+            'data' => $notice,
         ], 200);
     }
 
@@ -87,8 +81,8 @@ class ApplicationOfLectureController extends Controller
      */
     public function destroy($id)
     {
-        $application = \App\Models\application_of_lecture::find($id);
-        $application->delete();
+        $notice = \App\Models\user_notice::find($id);
+        $notice->delete();
         return response()->json([
             'message' => 'success',
         ], 200);
@@ -100,7 +94,10 @@ class ApplicationOfLectureController extends Controller
      */
     public function list(Request $request, int $userId)
     {
-        $applications = \App\Models\application_of_lecture::where('user_id', $userId)->get();
-        return response()->json($applications);
+        $notices = \App\Models\user_notice::where('user_id', $userId)->get();
+        return response()->json([
+            'message' => 'success',
+            'data' => $notices,
+        ], 200);
     }
 }

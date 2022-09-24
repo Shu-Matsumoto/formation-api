@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\StudyController;
 use App\Http\Controllers\Api\VideolinkController;
+use App\Http\Controllers\Api\UserNoticeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,3 +70,7 @@ Route::get('/{lectureId}/studies', [VideolinkController::class, 'list']);
 Route::resource('/application_of_lectures', ApplicationOfLectureController::class)->except(['create', 'edit']);
 Route::get('/{userId}/application_of_lectures', [ApplicationOfLectureController::class, 'list']);
 Route::post('/{userId}/applybox', [ApplyboxController::class, 'list']);
+
+// お知らせ
+Route::resource('/user_notices', UserNoticeController::class)->except(['create', 'edit']);
+Route::get('/{userId}/user_notices', [UserNoticeController::class, 'list']);
