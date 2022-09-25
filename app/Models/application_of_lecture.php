@@ -14,6 +14,7 @@ class application_of_lecture extends Model
         'student_id',
         'status',
         'motivation',
+        'fb_comment',
     ];
 
     protected $guarded = [
