@@ -47,7 +47,7 @@ Route::get('/{userId}/payment', [PaymentController::class, 'show']);
 Route::put('/{userId}/payment', [PaymentController::class, 'update']);
 Route::resource('/skills', SkillController::class)->except(['create', 'edit']);
 Route::get('/{userId}/skills', [SkillController::class, 'list']);
-Route::put('/{userId}/image', [ImageController::class, 'store']);
+Route::post('/{userId}/image', [ImageController::class, 'store']);
 
 // 講義関連
 Route::resource('/lectures', LectureController::class)->except(['create', 'edit']);
